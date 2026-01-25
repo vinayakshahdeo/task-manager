@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted # uses your Pi runner
+    runs-on: self-hosted # Pi runner
 
     steps:
       - name: Checkout code
@@ -20,7 +20,7 @@ jobs:
           sudo chown -R "$USER":"$USER" /usr/local/share/projects/task-manager
           rsync -a --delete "${GITHUB_WORKSPACE}/" /usr/local/share/projects/task-manager/
 
-      - name: Restart task-manager service
+      - name: Build and restart containers
         run: |
-          sudo systemctl daemon-reload
-          sudo systemctl restart task-manager.service
+          cd /usr/local/share/projects/task-manager
+          docker compose up -d --build
