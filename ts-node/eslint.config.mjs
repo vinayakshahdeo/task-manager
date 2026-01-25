@@ -2,29 +2,27 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import { defineConfig } from 'eslint/config';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig([
-  // Base JS rules
   js.configs.recommended,
-
-  // TypeScript recommended rules
   ...tseslint.configs.recommended,
-
-  // Your project-specific options
   {
-    files: ['**/*.{ts,tsx,js,mjs,cjs}'],
+    files: ['ts-node/**/*.{ts,tsx,js,mjs,cjs}'],
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
-        sourceType: 'module', // keep if you use import/export
+        project: path.join(__dirname, 'ts-node/tsconfig.json'),
+        tsconfigRootDir: path.join(__dirname, 'ts-node'),
+        sourceType: 'module',
       },
       globals: {
-        ...globals.node, // Node.js environment instead of browser
+        ...globals.node,
       },
-    },
-    rules: {
-      // Add custom rules here, e.g.:
-      // 'no-console': 'warn',
     },
   },
 ]);
