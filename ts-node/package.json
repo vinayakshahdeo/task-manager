@@ -14,8 +14,8 @@
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "*.{ts,js,json,md}": [
-      "eslint --fix",
+    "*.{ts,js}": [
+      "eslint --max-warnings=0",
       "prettier --write"
     ]
   },
