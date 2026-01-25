@@ -1,4 +1,4 @@
-name: Deploy to Pi (self-hosted)
+name: Deploy to Pi
 
 on:
   push:
@@ -8,26 +8,19 @@ on:
 
 jobs:
   deploy:
-    runs-on: self-hosted # your Pi runner
-
-    defaults:
-      run:
-        shell: bash
+    runs-on: self-hosted # uses your Pi runner
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Ensure project directory exists on Pi
+      - name: Sync repo to /usr/local/share/projects/task-manager
         run: |
           sudo mkdir -p /usr/local/share/projects/task-manager
           sudo chown -R "$USER":"$USER" /usr/local/share/projects/task-manager
-
-      - name: Sync repo to /usr/local/share/projects/task-manager
-        run: |
           rsync -a --delete "${GITHUB_WORKSPACE}/" /usr/local/share/projects/task-manager/
 
-      - name: Start / restart Docker Compose via systemd
+      - name: Restart task-manager service
         run: |
           sudo systemctl daemon-reload
           sudo systemctl restart task-manager.service
