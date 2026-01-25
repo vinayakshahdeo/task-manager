@@ -2,6 +2,8 @@ FROM node:20-bullseye
 
 WORKDIR /usr/src/app
 
+ENV CI=true
+
 COPY package*.json ./
 RUN npm install --omit=dev
 
