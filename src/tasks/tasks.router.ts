@@ -1,12 +1,27 @@
 import { Router, Response, Request } from "express";
-import { container } from "../config/container";
 import { TasksController } from "./tasks.controller";
+import { inject, injectable } from "inversify";
 
-export const tasksRouter: Router = Router();
+@injectable()
+export class TasksRouter {
+	public router: Router;
+	constructor(@inject(TasksController) private tasksController: TasksController) {
+		this.router = Router();
+		this.initializeRoutes();
+	}
 
-const tasksController: TasksController = container.get<TasksController>(TasksController);
-
-tasksRouter.post('/create', (_req: Request, res: Response) => {
-	const newTask = tasksController.createTask();
-	res.json(newTask);
-});
+	private initializeRoutes() {
+		this.router.post('/create', (_req: Request, res: Response) => {
+			const newTask = this.tasksController.handleGetTasks();
+			res.json(newTask);
+		});
+		this.router.get('/', (_req: Request, res: Response) => {
+			const newTask = this.tasksController.handlePostTasks();
+			res.json(newTask);
+		});
+		this.router.patch('/update', (_req: Request, res: Response) => {
+			const newTask = this.tasksController.handlePatchTasks();
+			res.json(newTask);
+		});
+	}
+}
