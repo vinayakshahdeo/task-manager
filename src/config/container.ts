@@ -1,7 +1,9 @@
 import { Container } from "inversify";
-import { User } from "../user";
-import { Page } from "../page";
+import { TasksController } from "../tasks/tasks.controller";
+import { TasksRouter } from "../tasks/tasks.router";
+import { UserController } from "../user/user.controller";
 
 export const container: Container = new Container();
-container.bind(User).toSelf().inSingletonScope();//not to be done in production as user can have multiple instances
-container.bind(Page).toSelf().inTransientScope();
+container.bind(TasksController).toSelf().inTransientScope();
+container.bind(TasksRouter).toSelf().inTransientScope();
+container.bind(UserController).toSelf().inTransientScope();
