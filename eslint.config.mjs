@@ -32,7 +32,13 @@ export default defineConfig([
       ],
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/consistent-type-imports': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: false,
+        },
+      ],
 
       // General best practices
       eqeqeq: ['error', 'always'],
@@ -46,6 +52,12 @@ export default defineConfig([
       'no-multiple-empty-lines': ['error', { max: 1 }],
       'max-lines-per-function': ['warn', { max: 80, skipComments: true }],
       complexity: ['warn', 10],
+    },
+  },
+  {
+    files: ['src/page.ts', 'src/post.ts'],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'off',
     },
   },
   {
