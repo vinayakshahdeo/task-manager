@@ -5,9 +5,13 @@ import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 
 const app: Express = express();
-const PORT: number = (process.env.PORT || 3001) as unknown as number;
 
 dotenv.config();
+
+//adding middleware from express
+app.use(express.json());
+
+const PORT: number = (process.env.PORT || 3001) as unknown as number;
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('Express + TypeScript Server for nodejs default routes');
