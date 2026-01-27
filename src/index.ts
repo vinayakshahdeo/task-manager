@@ -26,7 +26,7 @@ async function bootstrap() {
       throw new Error('Cannot read environment variables');
     }
     await mongoose.connect(dbString, { dbName: process.env.DATABASE_NAME });
-    console.warn('Connected to Mongodb');
+    console.warn('Connected to Mongodb Database');
     app.listen(PORT, '0.0.0.0', () => {
       console.warn(`Server running on port ${PORT}`);
     });
