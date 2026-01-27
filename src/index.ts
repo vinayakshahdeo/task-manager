@@ -17,10 +17,10 @@ addRoutes(app);
 
 async function bootstrap() {
   const dbString = process.env.DATABASE_CONNECTION_STRING;
-  if (!dbString) {
-    throw new Error('Cannot read environment variables');
-  }
   try {
+    if (!dbString) {
+      throw new Error('Cannot read environment variables');
+    }
     await mongoose.connect(dbString, { dbName: process.env.DATABASE_NAME });
     console.warn('Connected to Mongodb');
     app.listen(PORT, '0.0.0.0', () => {
