@@ -25,8 +25,8 @@ jobs:
           cat > /usr/local/share/projects/task-manager/.env << EOF
           NODE_ENV=production
           PORT=${{ secrets.PORT || '3001' }}
-          DATABASE_NAME=${{ secrets.DB_NAME }}
-          DATABASE_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}
+          DATABASE_NAME=${{ secrets.DATABASE_NAME }}
+          DATABASE_CONNECTION_STRING=${{ secrets.DATABASE_CONNECTION_STRING }}
           EOF
           chmod 600 /usr/local/share/projects/task-manager/.env
 
