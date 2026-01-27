@@ -24,7 +24,7 @@ jobs:
         run: |
           cat > /usr/local/share/projects/task-manager/.env << EOF
           NODE_ENV=production
-          PORT=${{ secrets.NODE_PORT }}
+          PORT=${{ secrets.PORT || '3001' }}
           DATABASE_NAME=${{ secrets.DB_NAME }}
           DATABASE_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}
           EOF
