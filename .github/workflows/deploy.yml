@@ -20,6 +20,16 @@ jobs:
           sudo chown -R "$USER":"$USER" /usr/local/share/projects/task-manager
           rsync -a --delete "${GITHUB_WORKSPACE}/" /usr/local/share/projects/task-manager/
 
+      - name: Create .env file from secrets
+        run: |
+          cat > /usr/local/share/projects/task-manager/.env << EOF
+          NODE_ENV=production
+          PORT=${{ secrets.NODE_PORT }}
+          DATABASE_NAME=${{ secrets.DB_NAME }}
+          DATABASE_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}
+          EOF
+          chmod 600 /usr/local/share/projects/task-manager/.env
+
       - name: Build and run with Docker Compose
         run: |
           cd /usr/local/share/projects/task-manager
