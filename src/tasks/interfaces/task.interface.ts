@@ -9,3 +9,6 @@ export interface Itask {
 	priority: Itaskpriority;
 	dueDate: Date;
 }
+export interface ItaskPartialWithId extends Partial<Itask> {
+	_id: string;
+}
