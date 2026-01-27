@@ -13,5 +13,5 @@ services:
       - DATABASE_CONNECTION_STRING=${DATABASE_CONNECTION_STRING}
       - PORT=${PORT}
     ports:
-      - '3000:3000'
+      - ${PORT}:${PORT}
     working_dir: /usr/src/app
