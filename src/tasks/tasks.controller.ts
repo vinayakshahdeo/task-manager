@@ -9,7 +9,7 @@ import { Document } from 'mongoose';
 export class TasksController {
 	constructor(@inject(UserController) private userController: UserController) {
 	}
-	public async handleGetTasks(req: Request, res: Response) {
+	public async handleGetTasks(_req: Request, _res: Response) {
 		const tasks = Task.find();
 		return tasks;
 	}
