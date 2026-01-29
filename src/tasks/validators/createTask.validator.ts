@@ -1,17 +1,19 @@
 import { checkSchema } from "express-validator";
 
-export const createTaskvalidator = checkSchema({
+export const createTaskValidator = checkSchema({
 	title: {
 		in: ['body'],//,"query",
 		notEmpty: true,
 		errorMessage: "Title is Required",
 		isString: true,//string
-		isLength: { options: { max: 100 }, errorMessage: "Title must be less than 100 characters" }, trim: true, //trim removes whitespace from the beginning and end of a string.
+		isLength: { options: { max: 100 }, errorMessage: "Title must be less than 100 characters" },
+		trim: true, //trim removes whitespace from the beginning and end of a string.
 	},
 	description: {
 		in: ['body'],
 		notEmpty: true,
 		errorMessage: "Description is Required",
+		isString: true,//string
 		trim: true
 	},
 	status: {
