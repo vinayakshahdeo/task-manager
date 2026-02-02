@@ -18,7 +18,7 @@ export class TasksRouter {
 	private initializeRoutes() {
 		this.router.get('/', getTasksValidator, async (req: Request, res: Response) => {
 			const result = validationResult(req);
-			console.dir(result, req.query);
+			console.log(result, req.query);
 			const allTasks = await this.tasksController.handleGetTasks(req, res);
 			res.json(allTasks);
 		});
