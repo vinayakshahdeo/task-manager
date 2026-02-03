@@ -15,7 +15,7 @@ export class TasksController {
 		@inject(UpdateTaskProvider) private updateTaskProvider: UpdateTaskProvider) {
 	}
 	public async handleGetTasks(_req: Request, _res: Response) {
-		const tasks = await this.taskService.findAll('asa');
+		const tasks = await this.taskService.findAll();
 		return tasks;
 	}
 	public async handlePostTasks(req: Request<object, object, Itask>, _res: Response) {
