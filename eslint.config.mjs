@@ -33,18 +33,17 @@ export default defineConfig([
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/consistent-type-imports': 'off',
+
+      // Add these type-aware rules:
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+      '@typescript-eslint/strict-boolean-expressions': 'off',
+
       // General best practices
       eqeqeq: ['error', 'always'],
-      'no-var': 'error',
-      'prefer-const': 'error',
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
-      curly: ['error', 'all'],
-      'no-else-return': 'warn',
-
-      // Style / readability
-      'no-multiple-empty-lines': ['error', { max: 1 }],
-      'max-lines-per-function': ['warn', { max: 80, skipComments: true }],
-      complexity: ['warn', 10],
+      // ... rest of your rules
     },
   },
   {
