@@ -1,3 +1,6 @@
 {
-  "github-actions.workflows.pinned.workflows": [".github/workflows/deploy.yml"]
+	"github-actions.workflows.pinned.workflows": [
+		".github/workflows/deploy.yml"
+	],
+	"postman.settings.dotenv-detection-notification-visibility": false
 }

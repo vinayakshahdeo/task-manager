@@ -4,10 +4,14 @@ import { UserController } from "../user/user.controller";
 import { Itask, ItaskPartialWithId } from './interfaces/task.interface';
 import { Document } from 'mongoose';
 import { TaskService } from './service/task.service';
+import { UpdateTaskProvider } from './provider/task.provider';
 
 @injectable()
 export class TasksController {
-	constructor(@inject(UserController) private userController: UserController, @inject(TaskService) private taskService: TaskService) {
+	constructor(
+		@inject(UserController) private userController: UserController,
+		@inject(TaskService) private taskService: TaskService,
+		@inject(UpdateTaskProvider) private updateTaskProvider: UpdateTaskProvider) {
 	}
 	public async handleGetTasks(_req: Request, _res: Response) {
 		const tasks = await this.taskService.findAll();
@@ -20,24 +24,12 @@ export class TasksController {
 	}
 	public async handlePatchTasks(req: Request<object, object, ItaskPartialWithId>,
 		_res: Response
-	) {
-		const task = await this.taskService.findById(req.body["_id"]);
-
-		if (task) {
-			//  Update the task
-			task.title = req.body.title ? req.body.title : task.title;
-			task.description = req.body.description
-				? req.body.description
-				: task.description;
-			task.dueDate = req.body.dueDate ? req.body.dueDate : task.dueDate;
-			task.priority = req.body.priority ? req.body.priority : task.priority;
-			task.status = req.body.status ? req.body.status : task.status;
-
-			// Save it
-			await task.save();
+	): Promise<Document> {
+		try {
+			return await this.updateTaskProvider.updateTask(req.body);
+		} catch (error) {
+			throw new Error(error as string);
 		}
-
-		return task;
 	}
 
 }

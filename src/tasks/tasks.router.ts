@@ -33,7 +33,7 @@ export class TasksRouter {
 		});
 		this.router.patch('/update', (req: Request<object, object, ItaskPartialWithId>, res: Response) => {
 			const updatedTask = this.tasksController.handlePatchTasks(req, res);
-			res.json(updatedTask);
+			res.status(StatusCodes.OK).json(updatedTask);
 		});
 	}
 }
