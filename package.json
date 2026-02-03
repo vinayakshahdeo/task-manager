@@ -14,6 +14,7 @@
   },
   "lint-staged": {
     "src/*.{ts,js}": [
+      "tsc --noemit",
       "eslint --max-warnings=0 --fix",
       "prettier --write"
     ]
