@@ -4,40 +4,46 @@ import { UserController } from "../user/user.controller";
 import { Itask, ItaskPartialWithId } from './interfaces/task.interface';
 import { Document } from 'mongoose';
 import { TaskService } from './service/task.service';
+import { UpdateTaskProvider } from './provider/task.provider';
+import { matchedData } from 'express-validator';
+import { ITaskpagination } from './interfaces/taskPagination.interface';
+import { GetTaskProvider } from './provider/getTask.provider';
 
 @injectable()
 export class TasksController {
-	constructor(@inject(UserController) private userController: UserController, @inject(TaskService) private taskService: TaskService) {
+	constructor(
+		@inject(UserController) private userController: UserController,
+		@inject(TaskService) private taskService: TaskService,
+		@inject(UpdateTaskProvider) private updateTaskProvider: UpdateTaskProvider,
+		@inject(GetTaskProvider) private getTaskProvider: GetTaskProvider) {
 	}
-	public async handleGetTasks(_req: Request, _res: Response) {
-		const tasks = await this.taskService.findAll();
-		return tasks;
+	public async handleGetTasks(req: Request, _res: Response) {
+		const validatedData: Partial<ITaskpagination> = matchedData(req);
+		try {
+			const tasks: { data: Itask[], meta: object; } = await this.getTaskProvider.findAllTask(validatedData);
+			return tasks;
+		} catch (error) {
+			throw new Error(error as any);
+		}
+
 	}
 	public async handlePostTasks(req: Request<object, object, Itask>, _res: Response) {
-		const task: Document = await this.taskService.createTask(req.body);
-		await task.save();
-		return task;
+		const validatedData: Itask = matchedData(req);
+		try {
+			return await this.taskService.createTask(validatedData);
+		} catch (error) {
+			throw new Error(error as any);
+		}
 	}
 	public async handlePatchTasks(req: Request<object, object, ItaskPartialWithId>,
 		_res: Response
-	) {
-		const task = await this.taskService.findById(req.body["_id"]);
-
-		if (task) {
-			//  Update the task
-			task.title = req.body.title ? req.body.title : task.title;
-			task.description = req.body.description
-				? req.body.description
-				: task.description;
-			task.dueDate = req.body.dueDate ? req.body.dueDate : task.dueDate;
-			task.priority = req.body.priority ? req.body.priority : task.priority;
-			task.status = req.body.status ? req.body.status : task.status;
-
-			// Save it
-			await task.save();
+	): Promise<Document> {
+		const validatedData: ItaskPartialWithId = matchedData(req);
+		try {
+			return await this.updateTaskProvider.updateTask(validatedData);
+		} catch (error) {
+			throw new Error(error as string);
 		}
-
-		return task;
 	}
 
 }

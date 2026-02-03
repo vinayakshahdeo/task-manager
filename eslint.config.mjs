@@ -9,10 +9,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig([
+  // Ignore JS config files
+  {
+    ignores: ['**/*.js', '**/*.mjs', '**/*.cjs', 'dist/**', 'node_modules/**'],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['src/**/*.{ts,tsx,js,mjs,cjs}'],
+    files: ['src/**/*.{ts,tsx}'], // Only TypeScript files
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -33,6 +37,13 @@ export default defineConfig([
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/consistent-type-imports': 'off',
+
+      // Type-aware rules
+      '@typescript-eslint/no-unsafe-call': 'error',
+      '@typescript-eslint/no-unsafe-member-access': 'error',
+      '@typescript-eslint/no-unsafe-assignment': 'error',
+      '@typescript-eslint/no-unsafe-return': 'error',
+
       // General best practices
       eqeqeq: ['error', 'always'],
       'no-var': 'error',
@@ -48,7 +59,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['ts-node/**/*.{ts,tsx,js,mjs,cjs}'],
+    files: ['ts-node/**/*.{ts,tsx}'], // Only TypeScript files
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {

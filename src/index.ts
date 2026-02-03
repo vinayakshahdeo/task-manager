@@ -11,7 +11,7 @@ dotenv.config();
 //adding middleware from express
 app.use(express.json());
 
-const PORT: number = (process.env.PORT || 3001) as unknown as number;
+const PORT: number = (process.env.PORT ?? 3001) as unknown as number;
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('Express + TypeScript Server for nodejs default routes');
@@ -36,4 +36,4 @@ async function bootstrap() {
   }
 }
 
-bootstrap();
+void bootstrap();
