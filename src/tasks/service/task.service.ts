@@ -2,6 +2,7 @@ import { injectable } from "inversify";
 import { Model } from "mongoose";
 import { Itask } from "../interfaces/task.interface";
 import { Task } from "../schema/task.schema";
+import { ITaskpagination } from "../interfaces/taskPagination.interface";
 
 @injectable()
 export class TaskService {
@@ -17,8 +18,13 @@ export class TaskService {
 		return await this.taskModel.findById(_id);
 	}
 
-	async findAll() {
-		return await this.taskModel.find();
+	async findActive(pagination: ITaskpagination) {
+		return await this.taskModel.find({
+			status: { $in: ['todo', 'inProgress'] }
+		}).limit(pagination.limit).skip(pagination.page - 1).sort({ createdAt: pagination.order === 'asc' ? 1 : -1 });
+	}
+	async findAll(pagination: ITaskpagination) {
+		return await this.taskModel.find().limit(pagination.limit).skip(pagination.page - 1).sort({ createdAt: pagination.order === 'asc' ? 1 : -1 });
 	}
 
 }
