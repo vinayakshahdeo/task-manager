@@ -9,14 +9,14 @@
     "start": "node dist/index.js",
     "start:dev": "nodemon --watch \"src/**/*.ts\" --exec ts-node src/index.ts",
     "dev": "nodemon --watch \"src/**/*.ts\" --exec ts-node src/index.ts",
-    "lint": "eslint . --ext .ts,.js",
-    "lint:fix": "eslint . --ext .ts,.js --fix",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "check": "npm run typecheck && npm run lint",
-    "format": "prettier --write .",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.{ts,js}": [
+    "src/**/*.{ts,tsx}": [
       "tsc-files --noEmit",
       "eslint --max-warnings=0 --fix",
       "prettier --write"

@@ -9,10 +9,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig([
+  // Ignore JS config files
+  {
+    ignores: ['**/*.js', '**/*.mjs', '**/*.cjs', 'dist/**', 'node_modules/**'],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['src/**/*.{ts,tsx,js,mjs,cjs}'],
+    files: ['src/**/*.{ts,tsx}'], // Only TypeScript files
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
@@ -34,20 +38,28 @@ export default defineConfig([
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/consistent-type-imports': 'off',
 
-      // Add these type-aware rules:
+      // Type-aware rules
       '@typescript-eslint/no-unsafe-call': 'error',
       '@typescript-eslint/no-unsafe-member-access': 'error',
       '@typescript-eslint/no-unsafe-assignment': 'error',
       '@typescript-eslint/no-unsafe-return': 'error',
-      '@typescript-eslint/strict-boolean-expressions': 'off',
 
       // General best practices
       eqeqeq: ['error', 'always'],
-      // ... rest of your rules
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      curly: ['error', 'all'],
+      'no-else-return': 'warn',
+
+      // Style / readability
+      'no-multiple-empty-lines': ['error', { max: 1 }],
+      'max-lines-per-function': ['warn', { max: 80, skipComments: true }],
+      complexity: ['warn', 10],
     },
   },
   {
-    files: ['ts-node/**/*.{ts,tsx,js,mjs,cjs}'],
+    files: ['ts-node/**/*.{ts,tsx}'], // Only TypeScript files
     languageOptions: {
       parser: tseslint.parser,
       parserOptions: {
