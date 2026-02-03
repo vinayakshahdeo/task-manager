@@ -6,6 +6,7 @@ import { Itask, ItaskPartialWithId } from "./interfaces/task.interface";
 import { createTaskValidator } from "./validators/createTask.validator";
 import { validationResult } from "express-validator";
 import { StatusCodes } from 'http-status-codes';
+import { upateTaskValidator } from './validators/updateTask.validator';
 
 @injectable()
 export class TasksRouter {
@@ -31,9 +32,15 @@ export class TasksRouter {
 				res.status(StatusCodes.BAD_REQUEST).json(result.array());
 			}
 		});
-		this.router.patch('/update', (req: Request<object, object, ItaskPartialWithId>, res: Response) => {
-			const updatedTask = this.tasksController.handlePatchTasks(req, res);
-			res.status(StatusCodes.OK).json(updatedTask);
+		this.router.patch('/update', upateTaskValidator, async (req: Request<object, object, ItaskPartialWithId>, res: Response) => {
+			const result = validationResult(req);
+			if (result.isEmpty()) {
+				const updatedTask = await this.tasksController.handlePatchTasks(req, res);
+				res.status(StatusCodes.OK).json(updatedTask);
+			} else {
+				res.status(StatusCodes.BAD_REQUEST).json(result.array());
+			}
+
 		});
 	}
 }
