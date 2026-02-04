@@ -3,6 +3,7 @@ import express, { Express, Request, Response } from 'express';
 import { addRoutes } from './config/routes.config';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
+import { responseFormatter } from './middleware/responseFormatter';
 
 const app: Express = express();
 
@@ -10,7 +11,7 @@ dotenv.config();
 
 //adding middleware from express
 app.use(express.json());
-
+app.use(responseFormatter);
 const PORT: number = (process.env.PORT ?? 3001) as unknown as number;
 
 app.get('/', (_req: Request, res: Response) => {
