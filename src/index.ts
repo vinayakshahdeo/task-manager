@@ -3,14 +3,24 @@ import express, { Express, Request, Response } from 'express';
 import { addRoutes } from './config/routes.config';
 import mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
+import { responseFormatter } from './middleware/responseFormatter';
+import cors from 'cors';
 
 const app: Express = express();
 
 dotenv.config();
 
+// let corsOptions:CorsOptions={
+// 	origin:'http://localhost:3001', //origin of the client app
+// 	methods:['GET','POST'],//methods allowed to be used in the cors request
+// 	optionsSuccessStatus:20
+// }
+
+app.use(cors());
+
 //adding middleware from express
 app.use(express.json());
-
+app.use(responseFormatter);
 const PORT: number = (process.env.PORT ?? 3001) as unknown as number;
 
 app.get('/', (_req: Request, res: Response) => {
